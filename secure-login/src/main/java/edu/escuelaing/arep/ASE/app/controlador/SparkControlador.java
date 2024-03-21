@@ -1,9 +1,11 @@
 package edu.escuelaing.arep.ASE.app.controlador;
-import edu.escuelaing.arep.ASE.app.servicio.APPLBRoundRobin;
+
+import edu.escuelaing.arep.ASE.app.servicios.ServicioAutenticacion;
 
 import static spark.Spark.port;
 import static spark.Spark.get;
 import java.security.PublicKey;
+import java.io.IOException;
 
 
 public class SparkControlador implements Controlador {
@@ -17,8 +19,13 @@ public class SparkControlador implements Controlador {
     public void init() {
         
         get("/login", (req,res)->{
-            String cuerpo = req.body();
-            return servicioAutenticacion.autenticar(cuerpo);        
+            try{
+                String cuerpo = req.body();
+                return servicioAutenticacion.autenticar(cuerpo); 
+
+            }catch(IOException e){
+                return "Error del servidor";
+            }      
 
         });
 

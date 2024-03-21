@@ -1,9 +1,9 @@
 package edu.escuelaing.arep.ASE.app.servicios; 
 
+import java.io.IOException;
+
 import edu.escuelaing.arep.ASE.app.domain.Login;
 import edu.escuelaing.arep.ASE.app.integracion.ClienteHttp;
-import edu.escuelaing.arep.ASE.app.transformacion.TransformacionDatos;
-
 
 public class ServicioAutenticacion {
     private String url;
@@ -20,12 +20,9 @@ public class ServicioAutenticacion {
         return this.cliente.hacerLlamado(this.url, login).equals("true");
     }
 
-    public boolean autenticar (String login){  
+    public boolean autenticar (String login) throws IOException{  
             
         return this.autenticar(transformacion.stringLogin(login));
-    }
-
-    
-
-    
+    }   
+        
 }
