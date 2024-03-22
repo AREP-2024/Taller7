@@ -3,7 +3,7 @@ package edu.escuelaing.arep.ASE.app.controlador;
 import edu.escuelaing.arep.ASE.app.servicios.ServicioAutenticacion;
 
 import static spark.Spark.port;
-import static spark.Spark.get;
+import static spark.Spark.post;
 import java.security.PublicKey;
 import java.io.IOException;
 
@@ -18,12 +18,14 @@ public class SparkControlador implements Controlador {
     @Override
     public void init() {
         
-        get("/login", (req,res)->{
+        post("/login", (req,res)->{
             try{
                 String cuerpo = req.body();
+                System.out.println("cuerpo :)"+cuerpo);
                 return servicioAutenticacion.autenticar(cuerpo); 
 
             }catch(IOException e){
+                e.printStackTrace();
                 return "Error del servidor";
             }      
 

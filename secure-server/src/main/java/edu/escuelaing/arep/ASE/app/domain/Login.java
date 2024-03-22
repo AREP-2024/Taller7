@@ -1,6 +1,7 @@
 package edu.escuelaing.arep.ASE.app.domain; 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 
 public class Login {
     @JsonProperty("usuario")
@@ -9,7 +10,9 @@ public class Login {
     @JsonProperty("contrasena")
     private String contrasena;
 
-    public Login(String usuario, String contrasena) {
+    @JsonCreator
+    public Login(@JsonProperty("usuario") String usuario, 
+                   @JsonProperty("contrasena") String contrasena) {
         this.usuario = usuario;
         this.contrasena = contrasena;
     }

@@ -17,14 +17,14 @@ public class App
     }
 
     public static void controladores(){
-        ServicioAutenticacion servicioAutenticacion = new ServicioAutenticacion("https://server:10000/login", new ClienteHttp());
+        ServicioAutenticacion servicioAutenticacion = new ServicioAutenticacion("http://localhost:10000/login", new ClienteHttp());
         Controlador controlador = new SparkControlador(servicioAutenticacion);
         controlador.init();       
     }
 
     public static void configuracion(){
         staticFileLocation("/public");
-        secure("certs/ecikeystore.p12","123456","certs/myTrustStore.p12","123456");
-        port(80);     
+        secure("certs/ecikeystore.p12","123456","certs/myTrustStore","123456");
+        port(8080);     
     }
 }

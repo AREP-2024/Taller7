@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class TransformacionDatos {
 
     public Login stringLogin(String informacion) throws IOException{
+        System.out.println("info :)"+informacion);
         ObjectMapper mapeador= new ObjectMapper();
         Login lecturaMapeador= mapeador.readValue(informacion, Login.class);
         return lecturaMapeador;

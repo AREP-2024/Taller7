@@ -3,13 +3,13 @@ function login() {
     let inputpassword = document.getElementById("password");
     let endPoint = "/login";
     let llamado = llamarAPI(endPoint,{
-        username: inputusername.value,
-        password: inputpassword.value
+        usuario: inputusername.value,
+        contrasena: inputpassword.value
 
     });
     llamado.then((resultado)=>{
         let divRespuesta = document.getElementById("respuesta");
-        const aux = Boolean(resultado);
+        const aux = resultado === "true";
 
         divRespuesta.innerHTML= aux?"Bienvenido!! 👌":"Usuario o contrasena incorrectos 🤔";
 
@@ -22,7 +22,7 @@ async function llamarAPI(endPoint,cuerpo){
             "Content-Type": "application/json"
         },
         method: "POST",
-        body: cuerpo
+        body: JSON.stringify(cuerpo)
     })
     .then((response)=>{
         if(!response.ok){

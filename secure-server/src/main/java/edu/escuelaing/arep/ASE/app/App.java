@@ -27,9 +27,7 @@ public class App {
     }
 
     public static void configuracion(){
-        staticFileLocation("/public");
-        secure("certs/ecikeystore.p12","123456","certs/myTrustStore.p12","123456");
-        port(80);     
+        port(10000);     
     }
     
 }

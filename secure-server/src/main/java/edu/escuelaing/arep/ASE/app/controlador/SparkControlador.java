@@ -46,6 +46,7 @@ public class SparkControlador implements Controlador {
                 servicioGuardar.guardar(lecturaMapeador);
                 return "Usuario Creado";
             }catch(Exception e){
+                e.printStackTrace();
                 return "Usuario no creado";
             }
 
