@@ -43,15 +43,15 @@ docker-compose up -d
 ```
 docker ps
 ```
-![](imagenes/)
+![](imagenes/docker_ps.png)
 También se puede verificar que los contenedores se estén ejecutando en Docker Desktop.
-![](imagenes/)
+![](imagenes/dockerD_local.png)
 
 3. Probamos nuestra aplicación accediendo a la siguiente URL en el navegador
 ```
 https://localhost:8080/login.html
 ```
-![](imagenes/)
+![](imagenes/Browser_local.png)
 
 **b. Construyendo las imagenes con el archivo docker-compose.build**
 1. Nos movemos a la carpeta secure-login:
@@ -86,18 +86,109 @@ docker-compose -f docker-compose.build.yml up -d
 ```
 docker ps
 ```
-![](imagenes/)
+![](imagenes/docker_ps.png)
 También se puede verificar que los contenedores se estén ejecutando en Docker Desktop.
-![](imagenes/)
+![](imagenes/dockerD_local.png)
 
 9. Probamos nuestra aplicación accediendo a la siguiente URL en el navegador:
 ```
 https://localhost:8080/login.html
 ```
-![](imagenes/)
+![](imagenes/Browser_local.png)
 
 ## ¿Cómo fuciona la aplicación?
 
+1.Antes de utilizar nuestra aplicación, es necesario crear un contenedor Docker basado en Ubuntu que permita agregar usuarios a nuestra base de datos MongoDB. Para lograr esto, ejecutamos el siguiente comando:
+ 
+```
+docker run -d --name ubuntu ubuntu tail -f /dev/null
+```
+ 
+2.Luego vamos a listar las redes Docker para ver el nombre de la red que estamos usando para este proyecto y así mismo conectarnos a esta, para esto ejecutamos el comando:
+ 
+```
+docker network ls
+```
+![](imagenes/dockerNetwork.png)
+**Nota:** Como podemos observar en la imagen nuestra red se llama **taller7_reddocker**
+ 
+3.Ahora para conectar nuestro contenedor Ubuntu a la red, ejecutamos el comando:
+ 
+```
+docker network connect taller7_reddocker ubuntu
+```
+4.Luego procederemos a instalar curl para poder agregar usuarios, siguiendo estos pasos:
+ 
+a.  Nos conectamos al contenedor Ubuntu:
+```
+docker exec -it ubuntu bash
+```
+ 
+b.  Actualizamos la lista de paquetes:
+```
+apt update
+```
+ 
+c.  Instalamos curl:
+```
+apt install curl
+```
+
+5.Una vez instalado curl, vamos a ejecutar el comando para agregar un usuario de la siguiente manera:
+```
+curl --location 'http://server:10000/user' \
+--header 'Content-Type: application/json' \
+--data '{
+    "usuario": "Eduard",
+    "contrasena": "0825"
+}'
+```
+**Nota:** El curl anterior se hizo con ayuda de postman.
+![](imagenes/posman.png)
+
+En la siguiente imagen, podemos ver el resultado en Docker Dekstop al ejecutar el curl:
+![](imagenes/Curl_dockerD.png)
+ 
+**Nota:** Si el usuario se creó correctamente se mostrará un mensaje de Usuario creado como se puede observar en la imagen anterior, de lo contrario se envía el mensaje de Usuario no creado.
+ 
+6.Ahora vamos a nuestro browser en la dirección url indicada anteriormente, para probar la aplicación.
+ 
+```
+https://localhost:8080/login.html
+```
+
+Allí vamos a acceder con las credenciales del usuario que agregamos anteriormente, para esto ingresamos en el campo de Usuario Eduard y en el de la Contraseña 0825 y damos click en iniciar sesión.
+ 
+Si las credenciales ingresadas son correctas se mostrará un mensaje de bienvenida como se puede observar en la imagen:
+ 
+![](imagenes/Browser_B.png)
+
+Si por el contrario no son correctas, se mostrará un mensaje de usuario o contraseña incorrectos como se visualiza en la siguiente imagen:
+ 
+![](imagenes/Browser_x.png)
+ 
+ 
+7.También podemos observar los usuarios que han sido agregados a nuestra base de datos, para esto
+a.  Ejecutamos el siguiente comando en el contenedor mongodb en docker desktop en la opción de exec para conectarnos a la base de datos
+ 
+```
+mongosh mongodb://LuisaGiron:LuisaGiron123@mongodb:27017/
+```
+![](imagenes/Conexion_mongo.png)
+ 
+b.  Luego vamos a acceder a la base de datos con el nombre, utilizando el siguiente comando:
+```
+use taller7
+```
+ 
+c.  Ahora vamos a acceder a la tabla donde tenemos la información de los usuarios, para esto ejecutamos el siguiente comando:
+```
+db.usuarios.find()
+ ```
+Como podemos observar en la siguiente imagen tenemos dos usuarios agregados con su respectivo username y contraseña encriptada.
+ 
+![](imagenes/DockerDB.png)
+ 
 
 ### Ejecución de Test
  
@@ -148,7 +239,7 @@ Para esta arquitectura se crearon estos dos proyectos, debido a que se esta trab
  
 * **MongoDB:** Base de datos NoSQL utilizada para almacenar los usurios con sus credenciales.
 
-
+![](imagenes/arquitectura.png)
 **Estructura Proyecto secure-login:**
  
 El proyecto está estructurado en diferentes paquetes y clases:
@@ -193,6 +284,8 @@ El proyecto está estructurado en diferentes paquetes y clases:
  
 **3. servicio**
 * **ServicioAutenticacion:** Servicio encargado de autenticar a los usuarios utilizando la base de datos y gestionar las solicitudes de autenticación.
+
+* **ServicioEncriptacion:** Servicio que proporciona funcionalidades de encriptación utilizando el algoritmo SHA-256 para generar un hash para el password.
 
 * **ServicioGuardar:** Servicio encargado de guardar la información de nuevos usuarios en la base de datos.
 
