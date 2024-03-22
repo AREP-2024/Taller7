@@ -1,0 +1,44 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    networks:
+      - reddocker
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb:/data/db
+      - mongodb:/data/configdb
+
+    environment:
+      MONGO_INITDB_DATABASE: login
+      MONGO_INITDB_ROOT_USERNAME: LuisaGiron
+      MONGO_INITDB_ROOT_PASSWORD: LuisaGiron123
+
+  login:
+    image: luisagiron/login
+    container_name: login
+    networks:
+      - reddocker
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongodb
+      - server
+    
+  server:
+    image: luisagiron/server
+    container_name: server
+    networks:
+      - reddocker
+    depends_on:
+      - mongodb
+
+networks:
+  reddocker:
+    driver: bridge
+
+volumes:
+  mongodb:
+  mongodb_config:

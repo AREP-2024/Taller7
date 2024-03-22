@@ -25,7 +25,6 @@ public class SparkControlador implements Controlador {
                 return servicioAutenticacion.autenticar(cuerpo); 
 
             }catch(IOException e){
-                e.printStackTrace();
                 return "Error del servidor";
             }      
 

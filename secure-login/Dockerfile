@@ -1,8 +1,10 @@
 FROM openjdk:17
 
-WORKDIR /usrapp/bin
 EXPOSE 8080
 
+WORKDIR /usrapp/bin
+
+COPY /certs /usrapp/bin/certs
 COPY /target/classes /usrapp/bin/classes
 COPY /target/dependency /usrapp/bin/dependency
 

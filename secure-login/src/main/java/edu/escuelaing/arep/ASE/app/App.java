@@ -17,7 +17,7 @@ public class App
     }
 
     public static void controladores(){
-        ServicioAutenticacion servicioAutenticacion = new ServicioAutenticacion("http://localhost:10000/login", new ClienteHttp());
+        ServicioAutenticacion servicioAutenticacion = new ServicioAutenticacion("http://server:10000/login", new ClienteHttp());
         Controlador controlador = new SparkControlador(servicioAutenticacion);
         controlador.init();       
     }
