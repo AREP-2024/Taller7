@@ -110,6 +110,7 @@ docker run -d --name ubuntu ubuntu tail -f /dev/null
 docker network ls
 ```
 ![](imagenes/dockerNetwork.png)
+
 **Nota:** Como podemos observar en la imagen nuestra red se llama **taller7_reddocker**
  
 3.Ahora para conectar nuestro contenedor Ubuntu a la red, ejecutamos el comando:
