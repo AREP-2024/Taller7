@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 
 
 public class ServicioEncriptacion {
+    
     public String hashString(String originalString) {
         try {
             // Create MessageDigest instance for SHA-256

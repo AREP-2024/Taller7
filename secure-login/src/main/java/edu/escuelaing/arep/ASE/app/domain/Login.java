@@ -16,5 +16,13 @@ public class Login {
         this.usuario = usuario;
         this.contrasena = contrasena;
     }
+
+    public String getUsuario(){
+        return usuario;
+    }
+
+    public String getContrasena(){
+        return contrasena;
+    }
     
 }
